@@ -28,7 +28,6 @@
 
 	$effect(() => {
 		if (browser) {
-			console.log('refreshInterval changed');
 			clearInterval(refreshInterval);
 			setRefreshInterval($userSettings.refreshInterval);
 		}

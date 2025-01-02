@@ -7,7 +7,7 @@
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
 ARG NODE_VERSION=22
-ARG PNPM_VERSION=10.0.0-beta.3
+ARG PNPM_VERSION=10.0.0-rc.2
 
 ################################################################################
 # Use node image for base image for all stages.
@@ -68,6 +68,7 @@ COPY package.json .
 # the built application from the build stage into the image.
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/build ./build
+COPY --from=build /usr/src/app/drizzle ./drizzle
 
 
 # Expose the port that the application listens on.

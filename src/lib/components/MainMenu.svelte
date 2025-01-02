@@ -34,7 +34,7 @@
 		</button>
 		<a
 			class="btn variant-ghost-surface"
-			href="https://github.com/CristiCriss17G/"
+			href="https://github.com/Stuck-In-A-Loop/OpenAirSensor-Server"
 			target="_blank"
 			rel="noreferrer"
 		>
@@ -54,7 +54,7 @@
 	</button>
 	<a
 		class="btn btn-sm variant-ghost-surface"
-		href="https://github.com/CristiCriss17G/"
+		href="https://github.com/Stuck-In-A-Loop/OpenAirSensor-Server"
 		target="_blank"
 		rel="noreferrer"
 	>
