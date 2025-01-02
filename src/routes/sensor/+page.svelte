@@ -61,7 +61,7 @@
 		{#if $errors.description}<span class="invalid">{$errors.description}</span>{/if}
 	</label>
 
-	<button class="btn variant-filled-primary">Submit</button>
+	<button class="btn variant-filled-primary" type="submit">Submit</button>
 	{#if $delayed}Working...{/if}
 </form>
 

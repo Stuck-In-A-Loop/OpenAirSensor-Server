@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "c4e2194c-3ded-47e6-acc9-c7e0780cedec",
+		"name": "OpenAirSensor API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27902141"
+	},
+	"item": [
+		{
+			"name": "Get sensors paginated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base url}}/api/sensor?offset=0&limit=5",
+					"host": ["{{base url}}"],
+					"path": ["api", "sensor"],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "sort",
+							"value": "name",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "Postman",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get markers data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base url}}/api/sensor/markers",
+					"host": ["{{base url}}"],
+					"path": ["api", "sensor", "markers"],
+					"query": [
+						{
+							"key": "sort",
+							"value": "name",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "Postman",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get sensors Data paginated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base url}}/api/sensorData?offset=0&limit=10",
+					"host": ["{{base url}}"],
+					"path": ["api", "sensorData"],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "name",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "Postman",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get sensors Data by sensor paginated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base url}}/api/sensorData/2?offset=0&limit=10",
+					"host": ["{{base url}}"],
+					"path": ["api", "sensorData", "2"],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "name",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "Postman",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send sensors data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "123",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gpsAltitude\": 10,\r\n    \"gpsLatitude\": 45.4437134,\r\n    \"gpsLongitude\": 28.0545756,\r\n    \"humidityPercent\": 26,\r\n    \"pm10\": 33,\r\n    \"pm25\": 40,\r\n    \"temperatureCelsius\": 20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base url}}/api/sensorData",
+					"host": ["{{base url}}"],
+					"path": ["api", "sensorData"],
+					"query": [
+						{
+							"key": "sort",
+							"value": "name",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "Postman",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [""]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [""]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base url",
+			"value": "http://localhost:5173",
+			"type": "string"
+		}
+	]
+}

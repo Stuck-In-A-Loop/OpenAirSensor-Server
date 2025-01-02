@@ -27,7 +27,7 @@
 	});
 </script>
 
-<div class="table-container my-4">
+<div class="card table-container my-4">
 	<Datatable {table}>
 		{#snippet header()}
 			<div></div>
