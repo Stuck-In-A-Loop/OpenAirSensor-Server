@@ -1,0 +1,52 @@
+services:
+  container:
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
+    env_file:
+      # Ensure that the variables in .env match the same variables in devcontainer.json
+      - devcontainer.env
+
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    networks:
+      - openairsensorserver_network
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  db:
+    image: postgres:16-alpine
+    env_file:
+      - devcontainer.env
+    ports:
+      - 5432:5432
+    networks:
+      - openairsensorserver_network
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    # restart: always
+    networks:
+      - openairsensorserver_network
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    ports:
+      - 8081:8080
+
+volumes:
+  db:
+
+networks:
+  openairsensorserver_network:
