@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { superForm } from 'sveltekit-superforms';
+	import ItemHeaderRow from '$lib/components/ItemHeaderRow.svelte';
 	import DatatableSensor from '$lib/components/DatatableSensor.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import ItemHeaderRow from '$lib/components/ItemHeaderRow.svelte';
 
 	import type { PageData } from './$types';
 
@@ -17,8 +17,8 @@
 	const toastStore = getToastStore();
 
 	const copiedkey: ToastSettings = {
-		message: 'Sensor key copied to clipboard',
-		background: 'variant-filled-success'
+		background: 'variant-filled-success',
+		message: 'Sensor key copied to clipboard'
 	};
 
 	// Client API:

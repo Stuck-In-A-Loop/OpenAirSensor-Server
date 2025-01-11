@@ -1,8 +1,8 @@
 <script lang="ts">
 	interface Props {
 		title: string;
-		titleSize?: string;
 		buttons?: boolean;
+		titleSize?: string;
 		hrClasses?: string[];
 		classicButtons?: boolean;
 		additionalClasses?: string[];
