@@ -50,7 +50,7 @@
 			</thead>
 			<tbody>
 				{#each table.rows as row}
-					<tr class="tablerow" >
+					<tr class="tablerow">
 						<td>{row.id}</td>
 						<td>{row.temperatureCelsius}°C</td>
 						<td>{row.humidityPercent}%</td>

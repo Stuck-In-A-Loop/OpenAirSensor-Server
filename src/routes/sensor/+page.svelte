@@ -17,9 +17,9 @@
 	const toastStore = getToastStore();
 
 	const copiedkey: ToastSettings = {
-	message: 'Sensor key copied to clipboard',
-	background: 'variant-filled-success',
-};
+		message: 'Sensor key copied to clipboard',
+		background: 'variant-filled-success'
+	};
 
 	// Client API:
 	const { constraints, delayed, enhance, errors, form, message } = superForm(data.form, {
@@ -32,12 +32,10 @@
 		resetForm: false
 	});
 
-
 	function copyToClipboard() {
-    navigator.clipboard.writeText($message);
-	toastStore.trigger(copiedkey);
-  }
-
+		navigator.clipboard.writeText($message);
+		toastStore.trigger(copiedkey);
+	}
 </script>
 
 <svelte:head>
@@ -47,7 +45,7 @@
 <DatatableSensor bind:this={dataTableS} />
 
 <form class="card p-4 w-full text-token space-y-4" method="POST" use:enhance>
-	<ItemHeaderRow title={"Create a new sensor"} buttons={false} />
+	<ItemHeaderRow title={'Create a new sensor'} buttons={false} />
 	<label class="label" for="name">
 		<span>Name</span>
 		<input
@@ -83,7 +81,11 @@
 		<h3 class={['text-wrap', 'break-words', { invalid: page.status >= 400 }]}>
 			Generated key: {$message}. Please save this key.
 		</h3>
-		<button type="button" class="btn variant-filled-primary px-4 py-2 rounded" onclick={copyToClipboard}>
+		<button
+			type="button"
+			class="btn variant-filled-primary px-4 py-2 rounded"
+			onclick={copyToClipboard}
+		>
 			Copy Key
 		</button>
 	</div>

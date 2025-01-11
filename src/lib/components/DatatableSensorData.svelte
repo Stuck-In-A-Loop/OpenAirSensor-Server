@@ -45,7 +45,7 @@
 			</thead>
 			<tbody>
 				{#each table.rows as row}
-					<tr class="tablerow" >
+					<tr class="tablerow">
 						<td>{row.id}</td>
 						<td><a class="anchor" href={`/sensor/${row.sensorId}`}>{row.sensor?.name ?? ''}</a></td>
 						<td>{row.temperatureCelsius}°C</td>

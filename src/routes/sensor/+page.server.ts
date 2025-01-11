@@ -29,6 +29,6 @@ export const actions = {
 		}
 
 		// Display a success status message
-		return message(form,  sensor.apiKey);
+		return message(form, sensor.apiKey);
 	}
 };

@@ -39,7 +39,7 @@
 			</thead>
 			<tbody>
 				{#each table.rows as row}
-					<tr class="tablerow" >
+					<tr class="tablerow">
 						<td>{row.id}</td>
 						<td><strong><a class="anchor" href={`/sensor/${row.id}`}>{row.name}</a></strong></td>
 						<td>
