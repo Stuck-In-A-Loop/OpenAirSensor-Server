@@ -1,6 +1,7 @@
 <script lang="ts">
 	interface Props {
 		title: string;
+		titleSize?: string;
 		buttons?: boolean;
 		hrClasses?: string[];
 		classicButtons?: boolean;
@@ -22,7 +23,8 @@
 			console.warn('No edit action provided');
 		},
 		hrClasses = ['!border-t-4', 'my-5'],
-		title
+		title,
+		titleSize = 'text-2xl'
 	}: Props = $props();
 </script>
 
@@ -37,7 +39,7 @@
 		additionalClasses
 	]}
 >
-	<h2 class="h2">{title}</h2>
+	<h2 class={titleSize}>{title}</h2>
 	<div class="flex flex-col md:flex-row gap-4 justify-between items-center">
 		{#if buttons}
 			<div class="btn-group variant-filled">

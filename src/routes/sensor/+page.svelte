@@ -2,6 +2,8 @@
 	import { page } from '$app/state';
 	import { superForm } from 'sveltekit-superforms';
 	import DatatableSensor from '$lib/components/DatatableSensor.svelte';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import ItemHeaderRow from '$lib/components/ItemHeaderRow.svelte';
 
 	import type { PageData } from './$types';
 
@@ -12,6 +14,12 @@
 	let { data }: Props = $props();
 
 	let dataTableS: DatatableSensor;
+	const toastStore = getToastStore();
+
+	const copiedkey: ToastSettings = {
+	message: 'Sensor key copied to clipboard',
+	background: 'variant-filled-success',
+};
 
 	// Client API:
 	const { constraints, delayed, enhance, errors, form, message } = superForm(data.form, {
@@ -23,6 +31,13 @@
 		},
 		resetForm: false
 	});
+
+
+	function copyToClipboard() {
+    navigator.clipboard.writeText($message);
+	toastStore.trigger(copiedkey);
+  }
+
 </script>
 
 <svelte:head>
@@ -32,9 +47,7 @@
 <DatatableSensor bind:this={dataTableS} />
 
 <form class="card p-4 w-full text-token space-y-4" method="POST" use:enhance>
-	{#if $message}<h3 class={['text-wrap', 'break-words', { invalid: page.status >= 400 }]}>
-			{$message}
-		</h3>{/if}
+	<ItemHeaderRow title={"Create a new sensor"} buttons={false} />
 	<label class="label" for="name">
 		<span>Name</span>
 		<input
@@ -52,7 +65,7 @@
 		<textarea
 			class="textarea"
 			rows="4"
-			placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+			placeholder="More information about the sensor."
 			name="description"
 			aria-invalid={$errors.description ? 'true' : undefined}
 			bind:value={$form.description}
@@ -64,6 +77,17 @@
 	<button class="btn variant-filled-primary" type="submit">Submit</button>
 	{#if $delayed}Working...{/if}
 </form>
+
+{#if $message}
+	<div class="card p-4 rounded-lg mb-4 flex justify-between items-center border border-green-800">
+		<h3 class={['text-wrap', 'break-words', { invalid: page.status >= 400 }]}>
+			Generated key: {$message}. Please save this key.
+		</h3>
+		<button type="button" class="btn variant-filled-primary px-4 py-2 rounded" onclick={copyToClipboard}>
+			Copy Key
+		</button>
+	</div>
+{/if}
 
 <style>
 	.invalid {

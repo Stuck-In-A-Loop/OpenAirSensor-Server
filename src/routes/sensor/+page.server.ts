@@ -29,6 +29,6 @@ export const actions = {
 		}
 
 		// Display a success status message
-		return message(form, `Generated api key: ${sensor.apiKey}. Save this key!`);
+		return message(form,  sensor.apiKey);
 	}
 };
