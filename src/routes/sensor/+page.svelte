@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { MediaQuery } from 'svelte/reactivity';
 	import { superForm } from 'sveltekit-superforms';
 	import ItemHeaderRow from '$lib/components/ItemHeaderRow.svelte';
 	import DatatableSensor from '$lib/components/DatatableSensor.svelte';
-	import { MediaQuery } from 'svelte/reactivity';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	import type { PageData } from './$types';
