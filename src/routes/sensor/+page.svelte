@@ -14,6 +14,7 @@
 	let { data }: Props = $props();
 
 	let dataTableS: DatatableSensor;
+	let isSmallScreen: boolean = $state(false);
 	const toastStore = getToastStore();
 
 	const copiedkey: ToastSettings = {
@@ -32,6 +33,12 @@
 		resetForm: false
 	});
 
+	$effect(() => {
+		if (window.innerWidth <= 640) {
+			isSmallScreen = true;
+		}
+	});
+
 	function copyToClipboard() {
 		navigator.clipboard.writeText($message);
 		toastStore.trigger(copiedkey);
@@ -43,6 +50,23 @@
 </svelte:head>
 
 <DatatableSensor bind:this={dataTableS} />
+
+{#if $message}
+	<div
+		class="card py-6 px-4 mb-4 flex flex-row justify-between items-center border border-green-800"
+	>
+		<h3 class={['text-wrap w-full', 'break-words', { invalid: page.status >= 400 }]}>
+			{#if isSmallScreen}
+				Key was generated. Save it!
+			{:else}
+				Generated key: {$message}. Please save this key!
+			{/if}
+		</h3>
+		<button type="button" class="btn variant-filled-primary rounded" onclick={copyToClipboard}>
+			Copy Key
+		</button>
+	</div>
+{/if}
 
 <form class="card p-4 w-full text-token space-y-4" method="POST" use:enhance>
 	<ItemHeaderRow title={'Create a new sensor'} buttons={false} />
@@ -75,21 +99,6 @@
 	<button class="btn variant-filled-primary" type="submit">Submit</button>
 	{#if $delayed}Working...{/if}
 </form>
-
-{#if $message}
-	<div class="card p-4 rounded-lg mb-4 flex justify-between items-center border border-green-800">
-		<h3 class={['text-wrap', 'break-words', { invalid: page.status >= 400 }]}>
-			Generated key: {$message}. Please save this key.
-		</h3>
-		<button
-			type="button"
-			class="btn variant-filled-primary px-4 py-2 rounded"
-			onclick={copyToClipboard}
-		>
-			Copy Key
-		</button>
-	</div>
-{/if}
 
 <style>
 	.invalid {

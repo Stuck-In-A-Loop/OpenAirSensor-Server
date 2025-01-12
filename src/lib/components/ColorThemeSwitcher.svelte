@@ -8,7 +8,7 @@
 </script>
 
 <div>
-	<select class="select max-w-32" bind:value={$userSettings.colorTheme}>
+	<select class="select w-full md:w-auto" bind:value={$userSettings.colorTheme}>
 		{#each options as option}
 			<option value={option}>{capitalizeFirstLetter(option)}</option>
 		{/each}

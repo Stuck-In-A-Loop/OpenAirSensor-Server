@@ -38,10 +38,10 @@
 	<title>Home - OpenAirSensor Server</title>
 </svelte:head>
 <div class="min-h-screen flex flex-col gap-4 p-4">
-	<div bind:this={mapElement} class="flex-1 p-4 rounded-lg shadow-md">
+	<div bind:this={mapElement} class="h-full flex-1 p-4 rounded-lg shadow-md">
 		<!-- Map content -->
 	</div>
-	<div class="flex-1 rounded-lg shadow-md">
+	<div class="flex-2 rounded-lg shadow-md">
 		<DatatableSensorData bind:this={dataTableSD} />
 	</div>
 </div>
