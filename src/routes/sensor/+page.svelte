@@ -3,6 +3,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	import ItemHeaderRow from '$lib/components/ItemHeaderRow.svelte';
 	import DatatableSensor from '$lib/components/DatatableSensor.svelte';
+	import { MediaQuery } from 'svelte/reactivity';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	import type { PageData } from './$types';
@@ -14,7 +15,8 @@
 	let { data }: Props = $props();
 
 	let dataTableS: DatatableSensor;
-	let isSmallScreen: boolean = $state(false);
+	const isSmallScreen = new MediaQuery('max-width: 640px');
+
 	const toastStore = getToastStore();
 
 	const copiedkey: ToastSettings = {
@@ -31,12 +33,6 @@
 			}
 		},
 		resetForm: false
-	});
-
-	$effect(() => {
-		if (window.innerWidth <= 640) {
-			isSmallScreen = true;
-		}
 	});
 
 	function copyToClipboard() {
@@ -56,7 +52,7 @@
 		class="card py-6 px-4 mb-4 flex flex-row justify-between items-center border border-green-800"
 	>
 		<h3 class={['text-wrap w-full', 'break-words', { invalid: page.status >= 400 }]}>
-			{#if isSmallScreen}
+			{#if isSmallScreen.current}
 				Key was generated. Save it!
 			{:else}
 				Generated key: {$message}. Please save this key!

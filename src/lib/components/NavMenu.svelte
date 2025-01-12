@@ -7,7 +7,9 @@
 		<li class="w-full md:w-auto">
 			<a
 				class={[
-					'btn w-full md:w-auto',
+					'btn',
+					'w-full',
+					'md:w-auto',
 					page.url.pathname === '/' ? 'variant-ghost-secondary' : 'variant-ghost'
 				]}
 				href="/">Home</a
@@ -16,7 +18,9 @@
 		<li class="w-full md:w-auto">
 			<a
 				class={[
-					'btn w-full md:w-auto',
+					'btn w-full',
+					'w-full',
+					'md:w-auto',
 					page.url.pathname === '/sensor' ? 'variant-ghost-secondary' : 'variant-ghost'
 				]}
 				href="/sensor">Sensor Menu</a
