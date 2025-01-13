@@ -6,6 +6,6 @@
 	let { children }: Props = $props();
 </script>
 
-<main class="container p-10 mx-auto">
+<main class="container p-4 sm:p-10 mx-auto">
 	{@render children?.()}
 </main>

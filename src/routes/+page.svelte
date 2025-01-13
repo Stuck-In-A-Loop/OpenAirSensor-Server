@@ -8,7 +8,7 @@
 
 	let mapElement: HTMLElement;
 	let dataTableSD: DatatableSensorData;
-	let refreshInterval: number;
+	let refreshInterval: ReturnType<typeof setInterval>;
 	const setRefreshInterval = (interval: number) => {
 		refreshInterval = setInterval(async () => {
 			dataTableSD.table.invalidate();
@@ -37,11 +37,11 @@
 <svelte:head>
 	<title>Home - OpenAirSensor Server</title>
 </svelte:head>
-<div class="min-h-screen md:min-h-full grid grid-cols-1 md:grid-cols-3 gap-4">
-	<div bind:this={mapElement} class="md:col-span-2 bg-gray-100 p-4">
+<div class="min-h-screen flex flex-col gap-4 p-4">
+	<div bind:this={mapElement} class="h-full flex-1 p-4 rounded-lg shadow-md min-h-[40dvh]">
 		<!-- Map content -->
 	</div>
-	<div class="p-4">
+	<div class="flex-2 rounded-lg shadow-md">
 		<DatatableSensorData bind:this={dataTableSD} />
 	</div>
 </div>
