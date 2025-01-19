@@ -31,7 +31,16 @@
 			{data.id}
 		</p>
 	</div>
-	<div class="card w-full flex flex-col items-start p-4 col-span-1 sm:col-span-6 md:col-span-8">
+	<div
+		class="card w-full text-center p-4 col-span-2 flex space-between gap-2 sm:flex-col sm:space-y-0"
+	>
+		<p><strong class="text-xl">Status</strong></p>
+		<hr class="hr w-full border-t-4 m-2 mx-auto hrHidden" />
+		<p class="w-full h-auto flex items-center justify-center sm:h-[calc(100%-1.5rem)]">
+			{data.status}
+		</p>
+	</div>
+	<div class="card w-full flex flex-col items-start p-4 col-span-1 sm:col-span-6 md:col-span-6">
 		<p><strong class="text-xl">Created At</strong></p>
 		<hr class="hr w-full border-t-4 m-2 mx-auto" />
 		<p class="mb-4">{data.createdAt}</p>

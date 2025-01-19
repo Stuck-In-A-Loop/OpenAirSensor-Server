@@ -1,0 +1,1 @@
+ALTER TABLE "sensor_data" ADD COLUMN "sensor_status" "sensor_status" DEFAULT 'SENSOR_NORMAL' NOT NULL;

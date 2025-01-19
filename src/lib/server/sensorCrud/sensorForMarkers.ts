@@ -29,6 +29,7 @@ export const sensorForMarkers = async () => {
 			description: sensor.description,
 			id: sensor.id,
 			name: sensor.name,
+			status: sensor.status,
 			updatedAt: sensor.updatedAt
 		};
 		if (!latestData.gpsAltitude || !latestData.gpsLatitude || !latestData.gpsLongitude) {

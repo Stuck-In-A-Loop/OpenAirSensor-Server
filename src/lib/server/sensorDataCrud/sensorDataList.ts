@@ -40,6 +40,7 @@ export const sensorDataList = async (state: RequestState) => {
 				name: schema.sensor.name
 			},
 			sensorId: schema.sensorData.sensorId,
+			sensorStatus: schema.sensorData.sensorStatus,
 			temperatureCelsius: schema.sensorData.temperatureCelsius,
 			updatedAt: schema.sensorData.updatedAt
 		})
