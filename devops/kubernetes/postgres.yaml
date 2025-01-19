@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: openair
+  labels:
+    app: postgres
+spec:
+  serviceName: 'postgres'
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+              name: postgres
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ['ReadWriteOnce']
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: openair
+  labels:
+    app: postgres
+spec:
+  ports:
+    - port: 5432
+      name: postgres
+  selector:
+    app: postgres
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: postgres-secret
+  namespace: openair
+spec:
+  encryptedData:
+    POSTGRES_DB: AgBxiu2T5FIctdHSG91cJBfj0fQ1XSiBU+BcYEUKP8MCban0yNhMP2MZsTBiMz2bwy8YSdlXppSnGe/oJ/lyoEccclM50h13tZpw1DD2KKaXnFsag6APsf6I3hXPWJyg8+y7vaS8zz8ffK/Myb1J8jMgNZOtZtEHmsy+FptCp5nAnm1SEEr+Rttsqlm4LK+DPFAdpvK/hYGt1eqnDb7c8fvFIfQeRYFTOWh3SfjeN8qQXlwe/jQeYLUu3BvLPCGkYZfHDxz4aZJ/GhNfhwOwAAKljxTuzSz7ciHZBLoZ2CTVqz/i/X2LtFm2Kg2/t5si37o9b6v3mWZ5kSJa3wHzq4sfh6NMcOnWq2p4mWybTGjgkbzE1WQ9T9EQER/T6Yyz+fQO4qqhCO2f0aL2tk5fEc1xlFskwyLgvBA3oorisnSmWMQ8DyqhNN+v+tdAxjIPM14NqAW4Yw9z4CvQ7Ej3M8Ne2lWx6VjtA1SGXZa0/6yAUcuWc0dqIuOf6Zp8XBbHQ0HslwXfygKPumjXAAS9Re2UT9WGnIwY1WtE22igd/GP+pg4DHVjpHAhRKlszA46cjj3JVuRSEiAcu8ED5stR3hK5l3VllIE+Z2YO/+hJ1+C3AjTXul1n4wu/P/LWC+aAbX5IKksLEEquijwAu3v5HscmeWJrUzy3ECcoUB3okq0A4dWbblVRXFrMuVnWV2ZsQq92Q+zKtDmJcmU65iXoNWfyeND
+    POSTGRES_PASSWORD: AgBUEFy6AWkhWQxiwUesQHuVpoBcC81JM52QWFYA0gQZibPUdniexvPTb0wZr1/hEjj0OwzOuWAWGeG88E8+zTq9/Oluo7aaXRZQKpur/dzLxqfNKh6ufAoERvAxPmwJo3138XPGuaij53+uZqRJsHlpbeMkLqeMiXbf2rrT5kCcUCLqQ37iEKHFGHp2j2HD3JN5LBLaVpIwjV4yR6AEYTPvbyesfhg/TXT3CMFPyGRoiX0yaofCOuA8U/D6z9+ZGDvs8XHnHhbLfp0kV+ZtRR/Ft7vSQDv3UL5/Hmw+IDzCM+uktKxXAJtJf1tRd7TuoyzHUMAe/RhjwgO7fOIGoAfTsJHZ+m+9c8xkQd56/EcTqrh3e9/rGcoJVDLmwJ4nc85n8uv0/gcwIdxmd/t/IzmyX9AFpzcCQ1OV6/gmGtP6ZO+atFWaVUAUX5J5+9+MxXSskyKFgFl7SOxxZ0/zUM+GGpT/0isMMZTCjH0xqBDE4SaXL2VryyRSzNOz5KCwP/TnsExOl6R9PJwZ2/sOh1SYO6RxTu9jS6kqpPhf0f9hq00689MGWoGwJtV8JlAC483t48JQy1JzgPfAPaQtpAph9iU8MNFqnXv27lGQG+JcUFrI0q/5WaKWFY/i62MwXQh6uhHMWqIgUTu3wA2tSdfwa3+C8fhryhs5K9KDirOp2WFOcfk6PRo7/RiYuo7bzzoJHvHg7K1vgQedbsgZXoQflYc5dbwef3eRMh6vy6f0Pg==
+    POSTGRES_USER: AgBuFB3MjxEhTmiHg4LNW7BxsdXUFwIcDulzvznasUvTKSKx82YMZrnRAjtlti2b5Ark5/P+UtPSrFxGXhH+/s5TJrIV6Bi3Sdiv1pWupHUdCQEeUfBZ4Pu5un3age82kqPEzO5OPpNkxAbzO1hKshK5ZrmUg01DPStO68b4e3kPQEXLaoSW3NOX1QB5vsf6Gx5G322Pt70cUpts0BVulSPRt728dZucwqWoK4dLUyWHj06JkUC6FeUzQqqW4EzAAja9t+9kvNlyBKDqPYkH2dF92RNA/tC0jvsBFAoA1DD5lSZpscA4p5e64AX71RXAGd0dQ5YlFSDVe8P6tOvJOq8D/JsowztT9OfWuhQFOaKkuna2ufhLsUb20rv1wuVUL88ubV26BvNhJmqlSaQX5KWRNPDqNe6dw6+zJpfABN4J5DoSCUNZkCItfRzVWk6CunRsVh+JIOE4g2y5F21Lf/J5ZPxHDXU/H5gSU/2rhjkG9YMthJi3r2P7owqKnK+qJoL7mxzc3BMMpwH0ixrXIGI+Ky7zOSx8hvPHi8/4FHkVoblcMgj6luu0WI8evJB7Xoeq/zcB1dNzAyYT5hwYfQsTfnV0xovCgqD99atZpfntyCC2j61RyAPwu+LOpL6VbaTgR4VQDDBnN+pemCzP9lE2l4X7K7tyGPgUQjj81udfYfsfjqSG5NbcsfqgWlUhEtTlgZULCiv8LCJUbMc=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: postgres-secret
+      namespace: openair
+    type: Opaque

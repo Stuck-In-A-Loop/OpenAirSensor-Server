@@ -8,6 +8,20 @@
 			"when": 1735770657835,
 			"tag": "0000_watery_barracuda",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1737317239212,
+			"tag": "0001_parallel_synch",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1737319052319,
+			"tag": "0002_panoramic_chameleon",
+			"breakpoints": true
 		}
 	]
 }

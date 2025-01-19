@@ -32,6 +32,7 @@
 				<tr>
 					<ThSort {table} field="id">ID</ThSort>
 					<ThSort {table} field="name">Name</ThSort>
+					<ThSort {table} field="status">Status</ThSort>
 					<ThSort {table} field="description">Description</ThSort>
 					<ThSort {table} field="createdAt">Created At</ThSort>
 					<ThSort {table} field="updatedAt">Updated At</ThSort>
@@ -42,6 +43,7 @@
 					<tr class="tablerow">
 						<td>{row.id}</td>
 						<td><strong><a class="anchor" href={`/sensor/${row.id}`}>{row.name}</a></strong></td>
+						<td>{row.status}</td>
 						<td>
 							{#if row.description && row.description.length > 0 && row.description.length < 50}
 								{row.description}

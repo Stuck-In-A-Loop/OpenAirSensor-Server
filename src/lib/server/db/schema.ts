@@ -1,13 +1,24 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable, varchar, text, doublePrecision } from 'drizzle-orm/pg-core';
+import { integer, pgTable, pgEnum, varchar, text, doublePrecision } from 'drizzle-orm/pg-core';
 
 import { timestamps } from './columns.helpers';
+
+export const sensorStatusEnum = pgEnum('sensor_status', [
+	'SENSOR_NORMAL',
+	'SENSOR_ERROR_TEMPERATURE',
+	'SENSOR_ERROR_HUMIDITY',
+	'SENSOR_ERROR_PM2_5',
+	'SENSOR_ERROR_PM10',
+	'SENSOR_ERROR_GPS',
+	'SENSOR_STOLEN'
+]);
 
 export const sensor = pgTable('sensor', {
 	apiKey: varchar('api_key', { length: 100 }).notNull().unique(),
 	description: text(),
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
 	name: varchar({ length: 255 }).notNull(),
+	status: sensorStatusEnum().notNull().default('SENSOR_NORMAL'),
 	...timestamps
 });
 
@@ -26,6 +37,7 @@ export const sensorData = pgTable('sensor_data', {
 	sensorId: integer('sensor_id')
 		.notNull()
 		.references(() => sensor.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+	sensorStatus: sensorStatusEnum('sensor_status').notNull().default('SENSOR_NORMAL'),
 	temperatureCelsius: doublePrecision('temperature_celsius').notNull(),
 	...timestamps
 });

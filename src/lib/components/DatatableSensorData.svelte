@@ -32,6 +32,7 @@
 				<tr>
 					<ThSort {table} field="id">ID</ThSort>
 					<ThSort {table} field="sensor">Sensor</ThSort>
+					<ThSort {table} field="status">Status</ThSort>
 					<ThSort {table} field="temperatureCelsius">Temperature °C</ThSort>
 					<ThSort {table} field="humidityPercent">Humidity %</ThSort>
 					<ThSort {table} field="pm10">PM 10</ThSort>
@@ -47,7 +48,13 @@
 				{#each table.rows as row}
 					<tr class="tablerow">
 						<td>{row.id}</td>
-						<td><a class="anchor" href={`/sensor/${row.sensorId}`}>{row.sensor?.name ?? ''}</a></td>
+						<td
+							><a
+								class={['anchor', row.sensor?.status !== 'SENSOR_NORMAL' && 'text-red-500']}
+								href={`/sensor/${row.sensorId}`}>{row.sensor?.name ?? ''}</a
+							></td
+						>
+						<td>{row.sensorStatus}</td>
 						<td>{row.temperatureCelsius}°C</td>
 						<td>{row.humidityPercent}%</td>
 						<td>{row.pm10 ?? -1}</td>

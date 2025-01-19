@@ -164,7 +164,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"gpsAltitude\": 10,\r\n    \"gpsLatitude\": 45.4437134,\r\n    \"gpsLongitude\": 28.0545756,\r\n    \"humidityPercent\": 26,\r\n    \"pm10\": 33,\r\n    \"pm25\": 40,\r\n    \"temperatureCelsius\": 20\r\n}",
+					"raw": "{\r\n    \"gpsAltitude\": 10,\r\n    \"gpsLatitude\": 45.4437134,\r\n    \"gpsLongitude\": 28.0545756,\r\n    \"humidityPercent\": 26,\r\n    \"pm10\": 33,\r\n    \"pm25\": 40,\r\n    \"temperatureCelsius\": 20,\r\n    \"sensorStatus\": \"SENSOR_NORMAL\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
