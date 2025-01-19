@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openair-sensor-server-deploy
+  namespace: openair
+  labels:
+    app: openair-sensor-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openair-sensor-server
+  template:
+    metadata:
+      labels:
+        app: openair-sensor-server
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: openair-sensor-server
+          image: ghcr.io/stuck-in-a-loop/openairsensor-server:latest
+          resources: {}
+          ports:
+            - containerPort: 3000
+              name: http
+          envFrom:
+            - secretRef:
+                name: openair-sensor-server-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openair-sensor-server-svc
+  namespace: openair
+  labels:
+    app: openair-sensor-server
+spec:
+  selector:
+    app: openair-sensor-server
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: openair-sensor-server-vs
+  namespace: istio-services
+spec:
+  hosts:
+    - openair.stuckinaloop.ro
+  gateways:
+    - stuckinaloop-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: openair-sensor-server-svc.openair.svc.cluster.local
+            port:
+              number: 3000
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: openair-sensor-server-secret
+  namespace: openair
+spec:
+  encryptedData:
+    DATABASE_URL: AgBOwbTaV25vO3iseXSNHA8OyvuenPUwIMGya6agxjl1LnAL6qCkRBxZLL3gTBXd1ABOGvykf3KTp3MhzNE4V1h1mnRUet8czkhTlLsCMY3k8plRt4BNfOr7VryIfDpJ/kVGAFkOnKNb7M9DYiBaFPgJc2vqEP6MejkQv8DGg8rkBz8sQn+2DBx4HzohiKztoysDRKSvkhLhG6GKl2fz8i8eInabc9/mbC8d9UsEazTT2xKsFytuXa88ev4b+5NWWh5zff3Vt8NfYkDhlKUT6QEHLSSRwMRxAVNp94yKSoclkbRG2/NMtZqY+WV+EBpp0EV+SGBoM+DMQSkiac7OesC3XQI4f4Ep9WjUy7tMucUMdHeZE17daKKW1sVhs+s8fVss55NPHYk7CoOKGmlPxk8JQo8XLZi7xRNyM8hOS03BV5ceIhmKCyI4yG41dThkM9E24E7Dx8KzujttyNM0bOJZhU1TbQ0m0+Z6FX0tKOamOHMDnRD8ysashwRv2dCJz1unZlD89D1BwismULqvs6/00kwKzbX/l4jqBuThZqRZ/fif9wioXc9nxzuE7tVZ+/6R4jCZh1OWhRwWRcPDjgw7EjQbS9DCVBo1cGoXpR0BLvNUi98Fwfv4wEnC9ZTUHhbzDt+r2g0Vx9zA0NwlX/ufLIibZQ+6430FUOChsoHezVcqKUoje8ngMqHut77gg1VDGgbJPjepfKZWUrS5MVKvSFtDswd+tgOrytNF21uiWO9W58flTvb/N4Wt9hDYY6jp9/06RMRcxKE6f37Zmpoj0CYdRMd9lz2X0mB+h3oyRdQ1oCBQbwwPGwy0y5zi7WmMU1buNhT6BNxb
+    PUBLIC_GOOGLEMAPS_API_KEY: AgAxZw05fwJJ0QGbsQHTvpPlSpFmguUw8OB9qAYgm2wUf6C6e8l6MohD1deOwXsTzf5R35P94eZHRsmMzlz2sW9FaP++zF9V1KoXTo/tJqWC6t9TccVspSXL3OtAovPws7FFVIvPJVoD1jD3iH7QZ0egx8gaccakfj3G1sjAzzgY9fRN3BBvszUX1WnRJuKsCLeXqECnx9NaRWcHuHh/zZ8mJ5oP+LbcM6Ex1w7seVK5lcWiV5LKcSitWsGLFD4sjPnKBfNdywdV0Ss2TT/3j0NOTTXo+O8aJ8ez8xgY+3Fb9Kkf5dhXjSDxOAG4ra8kBz9PYHPFbmtxIDvjcJDsLYeoMN3gFkxZstgo2ztYqe68vyHI6MBhPD/spLu70FTmtPl7Z+CaXzqpOV7rQ2XMgsQh4O7yBVy3GpO7Bb2S6HlVy8Ant0rHsUAJJJPhu4+Zw7lBumD5eDPB6eWs7HutzeToW1Fhwv7/HA8LiSq6RH+MwgJi5X2UHaruEt+JPtXRoqrknRQCF2HIi/EMudNx2Y313E+OhcvMF8b9OIDQROiICi4RRN0GJaBBHgdfiW+MdvqhQqdxXpvO5k4tsPgYp0HpnU1FwD/WUrCKjbmcz8mxnwGJeb5qGxjlOTVFVMzi03sa+Q9y7yXf8JzskhyTtJXx/d8iApx/0QQIQxIzSFb053dNrSNnnjGSsBOvc+tE1ODrlkWT/M2OYcO4/rxE1ykJIi01WytxiA3jV33LX2dvVO3KK0dxBok=
+    PUBLIC_LOG_LEVEL: AgCkhDbZHw/osnj4a2ge55HbZ9p05Uowkyin5tfCwm/Tz11J6ZWZfBY+SIp8CKItafHyqAu0NQG25Txtptw0B3HLm/if3elD02jNpeiampesUTBEWOkXawz2q56fNFUMxT7QJ3iXDohsPeiCIT4mR9gkfc5Y2YPthmy0CrxjTnvGvvoHZ7gyDrH+1WDz51L1cM5lJSbe2xi3OiCC08PVksm3ca9Ne/mazrsFvH8YAgLvWmyVbqyyfM/+ztsJ6nXUnwCTSnEVnZ68XvNxQU489X3kF3EgcJGT41czGS4EhydjOP6WkuN4Ts2yOPxwfWGUM3KgeJSIxrZlz70ChytAkwSTsZ/9Na+G1YeraK0x2dbVmHfVqlr40EH5k+V0j6hjVVMZMYruU1rP1u4NYIJyVepU+4sEXBxwAowwVxpULiCUW54l+ISNWb9Z/L3NrPkIYJnPOFGkE2Hd3rK/aHELFDybgf8nNAfSPbQLEO2tOQkC33KjQej4FAapOMsXUAeqVs2e9us+85lYfN7Eve0P9+Q5rpkarg9z1/AVfTJ+FG3+mtaoT5ktoKaWOmAtspf2QkRmR+CVfiKh+1Hbk2Hks7X9bRyiKgIxgjRlkNDmv8dXXYiTM/mUG1vWYyCtXtfuFNH8SEoSujnCRLqLonTK5xgzMHUff25FhIvUz/vrQLQ78lGFjkX8Tdz270eDaJFHtnKNvBlr
+  template:
+    metadata:
+      creationTimestamp: null
+      name: openair-sensor-server-secret
+      namespace: openair
+    type: Opaque
