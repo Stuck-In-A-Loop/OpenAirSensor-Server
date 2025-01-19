@@ -24,6 +24,14 @@
 		<NavMenu />
 		<LightSwitch />
 		<ColorThemeSwitcher />
+		<a
+			class="btn w-full variant-ghost-surface"
+			href="https://github.com/Stuck-In-A-Loop/OpenAirSensor-Server"
+			target="_blank"
+			rel="noreferrer"
+		>
+			GitHub
+		</a>
 		<button
 			class="btn hover:rotate-45"
 			onclick={openSettingsMenu}
@@ -32,14 +40,6 @@
 		>
 			<Cog6Tooth />
 		</button>
-		<a
-			class="btn variant-ghost-surface"
-			href="https://github.com/Stuck-In-A-Loop/OpenAirSensor-Server"
-			target="_blank"
-			rel="noreferrer"
-		>
-			GitHub
-		</a>
 	</div>
 {:else}
 	<LightSwitch />

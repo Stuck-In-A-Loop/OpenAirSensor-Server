@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { MediaQuery } from 'svelte/reactivity';
 	import { superForm } from 'sveltekit-superforms';
+	import ItemHeaderRow from '$lib/components/ItemHeaderRow.svelte';
 	import DatatableSensor from '$lib/components/DatatableSensor.svelte';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	import type { PageData } from './$types';
 
@@ -12,6 +15,14 @@
 	let { data }: Props = $props();
 
 	let dataTableS: DatatableSensor;
+	const isSmallScreen = new MediaQuery('max-width: 640px');
+
+	const toastStore = getToastStore();
+
+	const copiedkey: ToastSettings = {
+		background: 'variant-filled-success',
+		message: 'Sensor key copied to clipboard'
+	};
 
 	// Client API:
 	const { constraints, delayed, enhance, errors, form, message } = superForm(data.form, {
@@ -23,6 +34,11 @@
 		},
 		resetForm: false
 	});
+
+	function copyToClipboard() {
+		navigator.clipboard.writeText($message);
+		toastStore.trigger(copiedkey);
+	}
 </script>
 
 <svelte:head>
@@ -31,10 +47,25 @@
 
 <DatatableSensor bind:this={dataTableS} />
 
+{#if $message}
+	<div
+		class="card py-6 px-4 mb-4 flex flex-row justify-between items-center border border-green-800"
+	>
+		<h3 class={['text-wrap w-full', 'break-words', { invalid: page.status >= 400 }]}>
+			{#if isSmallScreen.current}
+				Key was generated. Save it!
+			{:else}
+				Generated key: {$message}. Please save this key!
+			{/if}
+		</h3>
+		<button type="button" class="btn variant-filled-primary rounded" onclick={copyToClipboard}>
+			Copy Key
+		</button>
+	</div>
+{/if}
+
 <form class="card p-4 w-full text-token space-y-4" method="POST" use:enhance>
-	{#if $message}<h3 class={['text-wrap', 'break-words', { invalid: page.status >= 400 }]}>
-			{$message}
-		</h3>{/if}
+	<ItemHeaderRow title={'Create a new sensor'} buttons={false} />
 	<label class="label" for="name">
 		<span>Name</span>
 		<input
@@ -52,7 +83,7 @@
 		<textarea
 			class="textarea"
 			rows="4"
-			placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+			placeholder="More information about the sensor."
 			name="description"
 			aria-invalid={$errors.description ? 'true' : undefined}
 			bind:value={$form.description}

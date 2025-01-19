@@ -33,7 +33,7 @@
 			<div></div>
 			<RowsPerPage {table} />
 		{/snippet}
-		<table class="table table-hover table-compact table-auto w-full">
+		<table class="table table-compact table-auto w-full">
 			<thead>
 				<tr>
 					<ThSort {table} field="id">ID</ThSort>
@@ -50,7 +50,7 @@
 			</thead>
 			<tbody>
 				{#each table.rows as row}
-					<tr>
+					<tr class="tablerow">
 						<td>{row.id}</td>
 						<td>{row.temperatureCelsius}°C</td>
 						<td>{row.humidityPercent}%</td>
@@ -71,3 +71,9 @@
 		{/snippet}
 	</Datatable>
 </div>
+
+<style>
+	.tablerow:hover {
+		background-color: #afafaf1e !important;
+	}
+</style>

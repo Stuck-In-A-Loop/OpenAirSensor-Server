@@ -7,8 +7,8 @@
 	const options: ColorTheme[] = ['seafoam', 'crimson', 'hamlindigo', 'modern', 'vintage', 'wintry'];
 </script>
 
-<div>
-	<select class="select max-w-32" bind:value={$userSettings.colorTheme}>
+<div class="w-full">
+	<select class="select text-center w-full md:w-auto" bind:value={$userSettings.colorTheme}>
 		{#each options as option}
 			<option value={option}>{capitalizeFirstLetter(option)}</option>
 		{/each}
